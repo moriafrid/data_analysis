@@ -1,0 +1,1 @@
+print("aaa",flush=True)
