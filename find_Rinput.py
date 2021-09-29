@@ -7,8 +7,9 @@ from add_figure import add_figure
 from glob import glob
 import seaborn as sns
 import numpy as np
+import tkinter
 import matplotlib
-matplotlib.use('TkAgg')
+#matplotlib.use('TkAgg')
 
 def linear(x, m, c):
     return m*x+c

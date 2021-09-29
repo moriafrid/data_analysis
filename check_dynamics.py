@@ -3,8 +3,10 @@ from open_pickle import read_from_pickle
 import numpy as np
 import scipy.fftpack
 from scipy.signal import savgol_filter
+import tkinter
 import matplotlib
-matplotlib.use('TkAgg')
+#matplotlib.use('TkAgg')
+import matplotlib.pyplot as plt
 from add_figure import add_figure
 
 def correct_frequency(pheno):

@@ -9,23 +9,24 @@ from open_one_data import one_data
 
 def split2phenomena(folder_):
 	try:	os.mkdir(folder_ + 'data')
-	except:	pass
-	base = folder_+'data/'
+	except FileExistsError:	pass
+	base = folder_+'/data/'
 	for phen in ['V1', 'short_pulse', 'syn', 'spike', 'noise']:
 		try:os.mkdir(base + phen)
 		except:pass
 	abf_files = glob(folder_ + '*.abf')
+	print(abf_files,flush=True)
 
 
 	for f in abf_files[:]: #take the abf file (from 3)
-		print(f)
+		print(f,flush=True)
 		save_folder = base+'traces_img/'+f[f.rfind('/')+1:-4]
 		try: os.mkdir(save_folder)
-		except:pass
+		except FileExistsError:pass
 
 		r=io.AxonIO(f)
 		bl = r.read_block(lazy=False)
-		for i in tqdm(range(len(bl.segments))): # on all the picture (from 1+92+10)
+		for i in tqdm(range(len(bl.segments)),file=sys.stdout): # on all the picture (from 1+92+10)
 			segment =bl.segments[i]
 			hz = segment.analogsignals[0].sampling_rate
 			t = [np.array(segment.analogsignals[0]) for segment in bl.segments]
@@ -37,18 +38,14 @@ def split2phenomena(folder_):
 			plt.close('all')
 
 			#split to syn, short_pulse, spike ,noise
-			if f=='/ems/elsc-labs/segev-i/moria.fridman/project/data_analysis/2017_05_08_A_4-5_stable_conc_aligned_selected_Moria.abf':
+			if f==folder_+'/2017_05_08_A_4-5_stable_conc_aligned_selected_Moria.abf':
+				print("one data",flush=True)
 				one_data(i,t,hz,base)
 			else:
 				with open(save_folder+'/_' + str(i) + '.p', 'wb') as f:
 					pickle.dump({str(i): [np.array(t),np.array(T)]},f)
 
 
-
-
-if __name__=='__main__':
-	folder_ = '/ems/elsc-labs/segev-i/moria.fridman/project/data_analysis/'
-	split2phenomena(folder_)
 
 
 
