@@ -10,10 +10,10 @@ from open_one_data import one_data
 def split2phenomena(folder_):
 	try:	os.mkdir(folder_ + 'data')
 	except FileExistsError:	pass
-	base = folder_+'/data/'
+	base = folder_+'data/'
 	for phen in ['V1', 'short_pulse', 'syn', 'spike', 'noise']:
 		try:os.mkdir(base + phen)
-		except:pass
+		except FileExistsError:pass
 	abf_files = glob(folder_ + '*.abf')
 	print(abf_files,flush=True)
 
