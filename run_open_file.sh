@@ -3,6 +3,6 @@
 set -e
 set -x
 PWD=$(pwd)
-export PATH="ems/elsc-labs/segev-i/moria.fridman/anaconda3/bin:"$PATH
-export PYTHONDIR="ems/elsc-labs/segev-i/moria.fridman/anaconda3/bin/"
-python3 open_file.py
+export PATH="/ems/elsc-labs/segev-i/moria.fridman/project/data_analysis_git/data_analysis/bin:"$PATH
+export PYTHONDIR="/ems/elsc-labs/segev-i/moria.fridman/project/data_analysis_git/data_analysis/bin/"
+python3 main.py
