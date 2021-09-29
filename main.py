@@ -6,7 +6,10 @@ from find_Rinput import find_Rinput
 from check_dynamics import check_dynamics
 if __name__=='__main__':
     #### creat the data
-    folder_ = '/ems/elsc-labs/segev-i/moria.fridman/project/data_analysis/'
+    #folder_='C:\Users\moria.fridman\Google Drive\Hebrew_university\Idan_Lab_project\data_analysis'
+    folder_='/ems/elsc-labs/segev-i/moria.fridman/project/data_analysis_git/data_analysis/'
+
+    #folder_ = '/ems/elsc-labs/segev-i/moria.fridman/project/data_analysis/'
     split2phenomena(folder_) ##need to be fix beacause eat too much memory
     #### clear the data
     folder_data = 'data/'
