@@ -26,7 +26,7 @@ def split2phenomena(folder_):
 
 		r=io.AxonIO(f)
 		bl = r.read_block(lazy=False)
-		for i in tqdm(range(len(bl.segments)),file=sys.stdout): # on all the picture (from 1+92+10)
+		for i in tqdm(range(len(bl.segments))): # on all the picture (from 1+92+10)
 			segment =bl.segments[i]
 			hz = segment.analogsignals[0].sampling_rate
 			t = [np.array(segment.analogsignals[0]) for segment in bl.segments]
