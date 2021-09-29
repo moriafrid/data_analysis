@@ -4,7 +4,7 @@
 #SBATCH -e errors/error-%j.err
 # Ask for one CPU, one GPU, enter the GPU queue, and limit run to 1 days
 #SBATCH -p ss.q
-#SBATCH --mem 6000
+#SBATCH --mem 60000
 #SBATCH -c 1
 #SBATCH -t 1-0
 # check if script is started via SLURM or bash

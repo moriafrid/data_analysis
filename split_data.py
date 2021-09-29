@@ -6,6 +6,7 @@ import numpy as np
 from tqdm import tqdm
 import pickle
 from open_one_data import one_data
+import os, psutil
 
 def split2phenomena(folder_):
 	try:	os.mkdir(folder_ + 'data')
@@ -17,8 +18,6 @@ def split2phenomena(folder_):
 		try:os.mkdir(base + phen)
 		except FileExistsError:pass
 	abf_files = glob(folder_ + '*.abf')
-	print(abf_files,flush=True)
-
 
 	for f in abf_files[:]: #take the abf file (from 3)
 		print(f,flush=True)
@@ -40,9 +39,10 @@ def split2phenomena(folder_):
 			plt.close('all')
 
 			#split to syn, short_pulse, spike ,noise
-			if f==folder_+'/2017_05_08_A_4-5_stable_conc_aligned_selected_Moria.abf':
+			if f==folder_+'2017_05_08_A_4-5_stable_conc_aligned_selected_Moria.abf':
 				print("one data",flush=True)
 				one_data(i,t,hz,base)
+				print(psutil.Process(os.getpid()).memory_info().rss / 1024 ** 2,flush=True)
 			else:
 				with open(save_folder+'/_' + str(i) + '.p', 'wb') as f:
 					pickle.dump({str(i): [np.array(t),np.array(T)]},f)
