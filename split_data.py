@@ -11,7 +11,7 @@ def split2phenomena(folder_):
 	try:	os.mkdir(folder_ + 'data')
 	except FileExistsError:	pass
 	base = folder_+'data/'
-	try:os.mkdir(base)
+	try:os.mkdir(base+'traces_img')
 	except FileExistsError:pass
 	for phen in ['V1', 'short_pulse', 'syn', 'spike', 'noise']:
 		try:os.mkdir(base + phen)
