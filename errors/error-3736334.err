@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/ems/elsc-labs/segev-i/moria.fridman/project/data_analysis_git/data_analysis/main.py", line 13, in <module>
+    correct_syn,mean_syn = read_phenomena('syn', folder_data, 1)
+  File "/ems/elsc-labs/segev-i/moria.fridman/project/data_analysis_git/data_analysis/open_pickle.py", line 34, in read_phenomena
+    correct=fast_clear_noise(data, str(phenomena), base, jumps)
+  File "/ems/elsc-labs/segev-i/moria.fridman/project/data_analysis_git/data_analysis/correct_noise.py", line 110, in fast_clear_noise
+    data=reshape_data(data)
+  File "/ems/elsc-labs/segev-i/moria.fridman/project/data_analysis_git/data_analysis/correct_noise.py", line 15, in reshape_data
+    minlen = min(len(r) for r in data)
+ValueError: min() arg is an empty sequence

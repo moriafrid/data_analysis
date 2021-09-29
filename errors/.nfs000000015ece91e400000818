@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/ems/elsc-labs/segev-i/moria.fridman/project/data_analysis_git/data_analysis/main.py", line 5, in <module>
+    from find_Rinput import find_Rinput
+  File "/ems/elsc-labs/segev-i/moria.fridman/project/data_analysis_git/data_analysis/find_Rinput.py", line 11, in <module>
+    matplotlib.use('TkAgg')
+  File "/ems/elsc-labs/segev-i/moria.fridman/anaconda3/lib/python3.8/site-packages/matplotlib/__init__.py", line 1162, in use
+    plt.switch_backend(name)
+  File "/ems/elsc-labs/segev-i/moria.fridman/anaconda3/lib/python3.8/site-packages/matplotlib/pyplot.py", line 284, in switch_backend
+    raise ImportError(
+ImportError: Cannot load backend 'TkAgg' which requires the 'tk' interactive framework, as 'headless' is currently running

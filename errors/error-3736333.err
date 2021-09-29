@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/ems/elsc-labs/segev-i/moria.fridman/project/data_analysis_git/data_analysis/main.py", line 10, in <module>
+    split2phenomena(folder_)
+  File "/ems/elsc-labs/segev-i/moria.fridman/project/data_analysis_git/data_analysis/split_data.py", line 12, in split2phenomena
+    except Exception as e:	raise e
+  File "/ems/elsc-labs/segev-i/moria.fridman/project/data_analysis_git/data_analysis/split_data.py", line 11, in split2phenomena
+    try:	os.mkdir(folder_ + 'data')
+FileExistsError: [Errno 17] File exists: '/ems/elsc-labs/segev-i/moria.fridman/project/data_analysis_git/data_analysisdata'
