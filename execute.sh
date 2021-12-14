@@ -1,10 +1,10 @@
 #!/bin/bash
 # Write output as following (%j is JOB_ID)
-#SBATCH -o outputs/output-%j.out
-#SBATCH -e errors/error-%j.err
+#SBATCH -o outputs/%j.out
+#SBATCH -e errors/%j.err
 # Ask for one CPU, one GPU, enter the GPU queue, and limit run to 1 days
 #SBATCH -p ss.q
-#SBATCH --mem 60000
+#SBATCH --mem 2000
 #SBATCH -c 1
 #SBATCH -t 1-0
 # check if script is started via SLURM or bash
@@ -22,4 +22,4 @@ path=$(dirname $SCRIPT_PATH)
 # If necessary, activate anaconda installed on your user (Default: /ems/..../<lab>/<user>/anaconda3
 # source anaconda3/bin/activate
 # put your script here - example script is sitting with this bash script
-python3 $path/main.py
+python3 $path/fit.py

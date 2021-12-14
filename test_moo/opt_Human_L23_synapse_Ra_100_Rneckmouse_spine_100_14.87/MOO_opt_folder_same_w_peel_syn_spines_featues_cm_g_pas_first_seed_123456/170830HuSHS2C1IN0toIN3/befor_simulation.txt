@@ -1,0 +1,24 @@
+Model:
+  morphology:
+    /ems/elsc-labs/segev-i/moria.fridman/project/data_analysis_git/data_analysis/try1.swc
+  mechanisms:
+    pas: pas at ['somatic', 'basal', 'apical', 'axonal']
+    exp2syn_0: Exp2Syn at ['spineHead0(1)']
+    NMDA_0: NMDA at ['spineHead0(1)']
+    exp2syn_1: Exp2Syn at ['spineHead1(1)']
+    NMDA_1: NMDA at ['spineHead1(1)']
+  params:
+    Ra: ['somatic', 'basal', 'apical', 'axonal'] Ra = 100
+    g_pas: ['somatic', 'basal', 'apical', 'axonal'] g_pas = 4.565668002885502e-05
+    cm: ['somatic', 'basal', 'apical', 'axonal'] cm = 0.66
+    e_pas: ['somatic', 'basal', 'apical', 'axonal'] e_pas = -77.77074
+    weight_AMPA0: weight[0] = [1e-05, 0.0015]
+    weight_NMDA0: weight[0] = [1e-05, 0.002]
+    weight_AMPA1: weight[0] = [1e-05, 0.0015]
+    weight_NMDA1: weight[0] = [1e-05, 0.002]
+    exp2syn_tau1: tau1 = [0.2, 0.4]
+    exp2syn_tau2: tau2 = [1, 3]
+    NMDA_tau_r_NMDA: tau_r_NMDA = [4, 15]
+    NMDA_tau_d_NMDA: tau_d_NMDA = [25, 90]
+    NMDA_n_NMDA: n_NMDA = 0.27
+    NMDA_gama_NMDA: gama_NMDA = 0.076

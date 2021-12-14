@@ -1,0 +1,41 @@
+
+./kv.c: ../mechanisms//kv.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd "../mechanisms"; MODLUNIT=$(NRNUNITS) $(NOCMODL) kv.mod -o "/ems/elsc-labs/segev-i/moria.fridman/project/data_analysis_git/data_analysis/x86_64")
+
+./kv.o: ./kv.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I"../mechanisms" $(INCLUDES) -fPIC -c $< -o $@
+
+./na.c: ../mechanisms//na.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd "../mechanisms"; MODLUNIT=$(NRNUNITS) $(NOCMODL) na.mod -o "/ems/elsc-labs/segev-i/moria.fridman/project/data_analysis_git/data_analysis/x86_64")
+
+./na.o: ./na.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I"../mechanisms" $(INCLUDES) -fPIC -c $< -o $@
+
+./NMDA.c: ../mechanisms//NMDA.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd "../mechanisms"; MODLUNIT=$(NRNUNITS) $(NOCMODL) NMDA.mod -o "/ems/elsc-labs/segev-i/moria.fridman/project/data_analysis_git/data_analysis/x86_64")
+
+./NMDA.o: ./NMDA.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I"../mechanisms" $(INCLUDES) -fPIC -c $< -o $@
+
+./ProbAMPANMDA2_ratio.c: ../mechanisms//ProbAMPANMDA2_ratio.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd "../mechanisms"; MODLUNIT=$(NRNUNITS) $(NOCMODL) ProbAMPANMDA2_ratio.mod -o "/ems/elsc-labs/segev-i/moria.fridman/project/data_analysis_git/data_analysis/x86_64")
+
+./ProbAMPANMDA2_ratio.o: ./ProbAMPANMDA2_ratio.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I"../mechanisms" $(INCLUDES) -fPIC -c $< -o $@
+
+./ProbAMPANMDA.c: ../mechanisms//ProbAMPANMDA.mod
+	@printf " -> $(C_GREEN)NMODL$(C_RESET) $<\\n"
+	(cd "../mechanisms"; MODLUNIT=$(NRNUNITS) $(NOCMODL) ProbAMPANMDA.mod -o "/ems/elsc-labs/segev-i/moria.fridman/project/data_analysis_git/data_analysis/x86_64")
+
+./ProbAMPANMDA.o: ./ProbAMPANMDA.c
+	@printf " -> $(C_GREEN)Compiling$(C_RESET) $<\\n"
+	$(COMPILE) -I"../mechanisms" $(INCLUDES) -fPIC -c $< -o $@
+

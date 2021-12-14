@@ -1,0 +1,17 @@
+#!/bin/sh
+if test "x${NRNHOME}" = "x" ; then
+    NRNHOME="/ems/elsc-labs/segev-i/moria.fridman/anaconda3/lib/python3.8/site-packages/neuron/.data"
+fi
+if test "${NEURONHOME}" = "" ; then
+    NEURONHOME=${NRNHOME}/share/nrn
+    export NEURONHOME
+fi
+if test "x${NRNBIN}" = "x" ; then
+    NRNBIN="/ems/elsc-labs/segev-i/moria.fridman/anaconda3/bin"
+fi
+if test "" = "yes" ; then
+    NRNIV="${NRNBIN}/nrniv.app/Contents/MacOS/nrniv"
+else
+    NRNIV="${NRNBIN}/nrniv"
+fi
+"${NRNIV}" -dll "/ems/elsc-labs/segev-i/moria.fridman/project/data_analysis_git/data_analysis/test_moo/x86_64/.libs/libnrnmech.so" "$@"

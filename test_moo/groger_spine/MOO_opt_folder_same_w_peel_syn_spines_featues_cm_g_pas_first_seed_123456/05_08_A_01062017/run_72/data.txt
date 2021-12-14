@@ -1,0 +1,48 @@
+model description:
+running number is 72
+the file to fit is /ems/elsc-labs/segev-i/moria.fridman/project/data_analysis_git/data_analysis/data/correct_syn/mean_syn.p
+ change the boundery NMDA arease time (NMDA_tau_r) to be longer [7,15] 
++peak_objective after yoni correction
+correct the syn to *short* syn with cut_off aqual to syn_time2clear2 + 1200
+generation size is 2 and num of generation is 2
+the dendrite isn't resize
+running with  fit.py_solution_hand that had the paremeters:
+{'05_08_A_01062017': {'CM': 1.88, 'RA': 95.7, 'RM': 12371}}
+calculated F_factor and change it to be 2.03
+
+Best individual values
+weight_AMPA0		8.056271362589001	 [nano-Siemens]
+weight_NMDA0		3.9702950525904908	 [nano-Siemens]
+exp2syn_tau1		0.06276467256184666	 [mS]
+exp2syn_tau2		0.7068789695815033	 [mS]
+NMDA_tau_r_NMDA		7.017839009279828	 [mS]
+NMDA_tau_d_NMDA		68.15239933603264	 [mS]
+
+hall of fame 4
+key		     mean		     std             units
+weight_AMPA0	4.4134	3.6429	 [nano-Siemens]
+weight_NMDA0	2.705	1.4555	 [nano-Siemens]
+exp2syn_tau1	0.1146	0.0761	 [mS]
+exp2syn_tau2	0.9054	0.1286	 [mS]
+NMDA_tau_r_NMDA	8.8731	1.802	 [mS]
+NMDA_tau_d_NMDA	55.8937	13.1015	 [mS]
+
+		weight_AMPA0	weight_NMDA0	exp2syn_tau1	exp2syn_tau2	NMDA_tau_r_NMDA	NMDA_tau_d_NMDA	 RM
+0.0081	0.004	0.0628	0.7069	7.0178	68.1524	124.127
+Fitness values:(7.755457169483635, 8.290358877539177)
+0.0081	0.0043	0.064	1.0669	7.1404	68.1524	124.127
+Fitness values:(11.192054062647735, 15.589282299015679)
+0.0008	0.0013	0.2453	0.9238	10.8993	37.0968	1297.87
+Fitness values:(11.893453950552406, 18.771378808372674)
+0.0008	0.0012	0.0863	0.9238	10.4346	50.1731	1297.87
+Fitness values:(12.590521832051564, 20.070615142315944)
+
+
+Final population: 4
+key		      mean		      std           units
+weight_AMPA0	4.4134	3.6429	 [nano Siemens]
+weight_NMDA0	2.705	1.4555	 [nano Siemens]
+exp2syn_tau1	0.1146	0.0761	 [mS]
+exp2syn_tau2	0.9054	0.1286	 [mS]
+NMDA_tau_r_NMDA	8.8731	1.802	 [mS]
+NMDA_tau_d_NMDA	55.8937	13.1015	 [mS]

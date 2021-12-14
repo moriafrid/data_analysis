@@ -1,13 +1,9 @@
-from matplotlib import pyplot as plt
 from open_pickle import read_from_pickle
 import numpy as np
 import scipy.fftpack
-from scipy.signal import savgol_filter
-import tkinter
-import matplotlib
-#matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 from add_figure import add_figure
+import os
 
 def correct_frequency(pheno):
     hz=10000
@@ -24,20 +20,26 @@ def correct_frequency(pheno):
     y2 = scipy.fftpack.irfft(w2)
     return y2
 
-def check_dynamics(short_pulse,save_folder):
-    add_figure('smooth short_pulse','t[ms]','V[mV]')
-    plt.plot(short_pulse,'.')
-    yhat = savgol_filter(short_pulse, 25,2)  # window size 51, polynomial order 3
-    plt.plot(yhat,'.')
-    plt.savefig(save_folder+'/smooth_curve')
+def check_dynamics(short_pulse,x_short_pulse,folder):
+    try: os.mkdir(folder+'check_dynamic/')
+    except FileExistsError: pass
+    save_folder=folder+'check_dynamic/'
+
+    add_figure('short_pulse',x_short_pulse.units,short_pulse.units)
+    plt.plot(x_short_pulse,short_pulse,'.')
+    #plt.plot(x_short_pulse[::2],short_pulse[::2],'.')
+    plt.savefig(save_folder+'/short_pulse')
     plt.show()
-    add_figure('2 part of short_pulse on each other','t[ms]','V[mV]')
-    min_index=np.argmin(yhat)
-    max_index=np.argmax(yhat)
-    part1=yhat[max_index:min_index]-yhat[max_index]
-    part2=-yhat[min_index:]+yhat[min_index]
-    plt.plot(part1)
-    plt.plot(part2)
+    add_figure('2 part of short_pulse on each other',x_short_pulse.units/1000,short_pulse.units)
+    min_index=np.argmin(short_pulse)
+    max_index=np.argmax(short_pulse)
+    part1=short_pulse[max_index:min_index]-short_pulse[max_index]
+    part2=-short_pulse[min_index:]+short_pulse[min_index]
+    x_part1=x_short_pulse[max_index:min_index]-x_short_pulse[max_index]
+    x_part2=x_short_pulse[min_index:]-x_short_pulse[min_index]
+    plt.plot(x_part1*1000, part1)
+    plt.plot(x_part2[:len(x_part1)]*1000,part2[:len(x_part1)])
+    plt.legend(['beginigng','flip end'])
     plt.savefig(save_folder+'/check_dynamics')
     plt.show()
     a=1
@@ -45,8 +47,7 @@ def check_dynamics(short_pulse,save_folder):
 
 
 if __name__=='__main__':
-    folder_short_pulse = '/ems/elsc-labs/segev-i/moria.fridman/project/data_analysis/data/short_pulse/'
-    a=read_from_pickle('/ems/elsc-labs/segev-i/moria.fridman/project/data_analysis/data/short_pulse_correct.p')
-    mean_short_pulse=np.mean(a,axis=0)
-    check_dynamics(mean_short_pulse,folder_short_pulse)
+    folder_short_pulse = '/ems/elsc-labs/segev-i/moria.fridman/project/data_analysis_git/data_analysis/data/check_dynamic/'
+    mean_short_pulse,x_mean_short_pulse=read_from_pickle('/ems/elsc-labs/segev-i/moria.fridman/project/data_analysis_git/data_analysis/data/short_pulse/mean_short_pulse.p')
+    check_dynamics(mean_short_pulse,x_mean_short_pulse,folder_short_pulse)
     a=1

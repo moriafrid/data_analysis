@@ -1,0 +1,52 @@
+model description:
+running number is10
+ after yoni correction   
+ how take diameter*1.5 change the AMPA parameters
+ big generation
+
+Best individual values
+weight_AMPA0		2.0504754122216697
+weight_NMDA0		5.0
+exp2syn_tau1		0.4
+exp2syn_tau2		3.0
+NMDA_tau_r_NMDA		6.042505450878984
+NMDA_tau_d_NMDA		56.73561457413083
+hall of fame 10
+key		mean		std 
+weight_AMPA0	2.0505	0.0
+weight_NMDA0	5.0	0.0
+exp2syn_tau1	0.4	0.0
+exp2syn_tau2	3.0	0.0
+NMDA_tau_r_NMDA	6.0425	0.0001
+NMDA_tau_d_NMDA	56.7348	0.0023
+
+		weight_AMPA0	weight_NMDA0	exp2syn_tau1	exp2syn_tau2	NMDA_tau_r_NMDA	NMDA_tau_d_NMDA	 RM
+0.002	0.005	0.4	3.0	6.043	56.736	487.692
+Fitness values:(5.100769547099324,)
+0.002	0.005	0.4	3.0	6.043	56.736	487.692
+Fitness values:(5.100769547099946,)
+0.002	0.005	0.4	3.0	6.043	56.736	487.692
+Fitness values:(5.100769547100435,)
+0.002	0.005	0.4	3.0	6.042	56.736	487.692
+Fitness values:(5.100769547103254,)
+0.002	0.005	0.4	3.0	6.042	56.736	487.692
+Fitness values:(5.100769547104074,)
+0.002	0.005	0.4	3.0	6.042	56.736	487.692
+Fitness values:(5.100769547104449,)
+0.002	0.005	0.4	3.0	6.042	56.736	487.692
+Fitness values:(5.1007695471044805,)
+0.002	0.005	0.4	3.0	6.042	56.736	487.692
+Fitness values:(5.100769547105197,)
+0.002	0.005	0.4	3.0	6.043	56.736	487.692
+Fitness values:(5.100769547705031,)
+0.002	0.005	0.4	3.0	6.043	56.728	487.692
+Fitness values:(5.100769548558916,)
+
+
+Final population: 200key		mean		std
+weight_AMPA0	2.0888	0.4146
+weight_NMDA0	4.9376	0.2322
+exp2syn_tau1	0.3987	0.0047
+exp2syn_tau2	2.966	0.106
+NMDA_tau_r_NMDA	6.0146	0.5181
+NMDA_tau_d_NMDA	56.9243	3.5015

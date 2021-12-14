@@ -1,0 +1,60 @@
+model description:
+running number is 75
+the file to fit is /ems/elsc-labs/segev-i/moria.fridman/project/data_analysis_git/data_analysis/data/correct_syn/mean_syn.p
+ change the boundery NMDA arease time (NMDA_tau_r) to be longer [7,15] 
++peak_objective after yoni correction
+correct the syn to *short* syn with cut_off aqual to syn_time2clear2 + 1200
+generation size is 100 and num of generation is 1000
+the dendrite isn't resize
+running with  fit.py_solution_hand that had the paremeters:
+{'05_08_A_01062017': {'RM': 12990.8, 'RA': 75.1, 'CM': 1}}
+calculated F_factor and change it to be 2.03
+
+Best individual values
+weight_AMPA		0.8055881855140445	 [nano-Siemens]
+weight_NMDA		2.913047528180546	 [nano-Siemens]
+exp2syn_tau1		0.8876649563287747	 [mS]
+exp2syn_tau2		3.1632777009795614	 [mS]
+NMDA_tau_r_NMDA		7.025411030710226	 [mS]
+NMDA_tau_d_NMDA		25.0	 [mS]
+
+hall of fame 10
+key		     mean		     std             units
+weight_AMPA	0.8056	0.0	 [nano-Siemens]
+weight_NMDA	2.9131	0.0	 [nano-Siemens]
+exp2syn_tau1	0.8877	0.0	 [mS]
+exp2syn_tau2	3.1633	0.0	 [mS]
+NMDA_tau_r_NMDA	7.0252	0.0006	 [mS]
+NMDA_tau_d_NMDA	25.0	0.0	 [mS]
+
+		weight_AMPA	weight_NMDA	exp2syn_tau1	exp2syn_tau2	NMDA_tau_r_NMDA	NMDA_tau_d_NMDA	 RM
+0.0008	0.0029	0.8877	3.1633	7.0254	25.0	1241.329
+Fitness values:(1.3949117873259111, 2.651663152164474e-05)
+0.0008	0.0029	0.8877	3.1633	7.0255	25.0	1241.329
+Fitness values:(1.394913741929073, 2.720499452379954e-05)
+0.0008	0.0029	0.8877	3.1633	7.0254	25.0	1241.329
+Fitness values:(1.3949124909234671, 3.601075320602831e-05)
+0.0008	0.0029	0.8877	3.1633	7.0253	25.0	1241.329
+Fitness values:(1.3949112182798276, 4.497115241974825e-05)
+0.0008	0.0029	0.8877	3.1633	7.0249	25.0	1241.329
+Fitness values:(1.3949081881237202, 6.631527639910928e-05)
+0.0008	0.0029	0.8877	3.1633	7.0249	25.0	1241.329
+Fitness values:(1.3949080742254907, 6.711782447155201e-05)
+0.0008	0.0029	0.8877	3.1633	7.0268	25.0	1241.329
+Fitness values:(1.394925768500176, 5.733380078254413e-05)
+0.0008	0.0029	0.8877	3.1633	7.0247	25.0	1241.329
+Fitness values:(1.3949057519751717, 8.348495725840621e-05)
+0.0008	0.0029	0.8877	3.1633	7.0246	25.0	1241.329
+Fitness values:(1.3949047593773427, 9.048314609572117e-05)
+0.0008	0.0029	0.8877	3.1633	7.0245	25.0	1241.329
+Fitness values:(1.3949038617368907, 9.681308654307941e-05)
+
+
+Final population: 200
+key		      mean		      std           units
+weight_AMPA	0.8724	0.4233	 [nano Siemens]
+weight_NMDA	2.9511	0.3489	 [nano Siemens]
+exp2syn_tau1	0.8764	0.1071	 [mS]
+exp2syn_tau2	3.16	0.199	 [mS]
+NMDA_tau_r_NMDA	7.143	0.4156	 [mS]
+NMDA_tau_d_NMDA	25.7992	2.5801	 [mS]

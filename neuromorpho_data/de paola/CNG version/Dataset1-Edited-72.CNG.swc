@@ -1,0 +1,39 @@
+# Original file Dataset1-Edited-72.swc edited using StdSwc version 1.31 on 5/6/15.
+# Irregularities and fixes documented in Dataset1-Edited-72.swc.std.  See StdSwc1.31.doc for more information.
+#
+# Neurolucida to SWC conversion from L-Measure. Sridevi Polavaram: spolavar@gmu.edu
+# Original fileName:C:\Users\praveen\Desktop\DataProcessing\CurrentArchives\Processing\De Paola\ASC\Dataset1-Edited-72.asc
+#The original file has no soma
+# NEUROMANTIC V1.6.3 (4/20/2015 4:18:30 PM): Saved to Dataset1-Edited-72.-T1swc.swc
+# NEUROMANTIC V1.6.3 (4/20/2015 4:18:53 PM): Saved to Dataset1-Edited-72-T1.swc
+1 2 0.0 0.0 0.0 0.05 -1
+2 2 -1.71 4.93 1.07 0.05 1
+3 2 -2.43 7.4 0.63 0.05 2
+4 2 -1.03 10.92 0.53 0.05 3
+5 2 -1.04 12.73 -0.25 0.05 4
+6 2 -1.98 13.61 0.38 0.05 5
+7 2 -3.33 18.37 0.1 0.05 6
+8 2 -3.97 18.98 0.48 0.05 7
+9 2 -2.71 22.72 -0.02 0.05 8
+10 2 -1.63 25.05 -0.84 0.05 9
+11 2 -0.71 27.28 -0.22 0.05 10
+12 2 -0.63 30.52 -0.22 0.05 11
+13 2 -1.19 32.56 0.94 0.05 12
+14 2 -0.66 35.2 1.66 0.05 13
+15 2 -1.27 37.62 0.95 0.05 14
+16 2 -0.97 39.21 -0.52 0.05 15
+17 2 -1.7 41.73 -1.08 0.05 16
+18 2 -0.25 43.49 -0.92 0.05 17
+19 2 -0.87 44.26 -1.61 0.05 18
+20 2 -1.31 46.24 -0.79 0.05 19
+21 2 -1.9 48.46 -0.45 0.05 20
+22 2 -2.4 50.5 0.32 0.05 21
+23 2 -2.78 52.61 -0.03 0.05 22
+24 2 -2.73 54.04 1.05 0.05 23
+25 2 0.48 42.35 1.25 0.05 18
+26 2 -1.96 39.25 5.31 0.05 15
+27 2 -4.26 19.18 1.07 0.05 8
+28 2 -5.64 20.72 0.49 0.05 27
+29 2 -7.24 22.32 0.96 0.05 28
+30 2 -7.43 22.74 -0.34 0.05 29
+31 2 -8.95 22.78 -0.89 0.05 30

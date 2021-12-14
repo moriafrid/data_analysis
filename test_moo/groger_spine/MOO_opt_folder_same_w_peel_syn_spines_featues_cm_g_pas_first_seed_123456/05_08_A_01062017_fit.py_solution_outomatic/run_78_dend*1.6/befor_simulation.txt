@@ -1,0 +1,33 @@
+model description:
+running number is 78
+the file to fit is /ems/elsc-labs/segev-i/moria.fridman/project/data_analysis_git/data_analysis/data/correct_syn/mean_syn.p
+ change the boundery NMDA arease time (NMDA_tau_r) to be longer [7,15] 
++peak_objective after yoni correction
+correct the syn to *short* syn with cut_off aqual to syn_time2clear2 + 1200
+generation size is 100 and num of generation is 1000
+the dendrite resize by 1.6
+running with  fit.py_solution_outomatic that had the paremeters:
+{'05_08_A_01062017': {'RM': 19859.44077596899, 'RA': 49.954188487133635, 'CM': 0.9671363885003339}}
+calculated F_factor and change it to be 2.03
+
+neck resistance is 0.74
+Model:
+  morphology:
+    /ems/elsc-labs/segev-i/moria.fridman/project/data_analysis_git/data_analysis/try1.swc
+  mechanisms:
+    pas: pas at ['somatic', 'basal', 'apical', 'axonal']
+    exp2syn_0: Exp2Syn at ['spineHead0(1)']
+    NMDA_0: NMDA at ['spineHead0(1)']
+  params:
+    Ra: ['somatic', 'basal', 'apical', 'axonal'] Ra = 49.954188487133635
+    g_pas: ['somatic', 'basal', 'apical', 'axonal'] g_pas = 5.03538851511899e-05
+    cm: ['somatic', 'basal', 'apical', 'axonal'] cm = 0.9671363885003339
+    e_pas: ['somatic', 'basal', 'apical', 'axonal'] e_pas = -77.386734
+    weight_AMPA: weight[0] = [0.0, 0.01]
+    weight_NMDA: weight[0] = [0.0, 0.005]
+    exp2syn_tau1: tau1 = [0.001, 2.1]
+    exp2syn_tau2: tau2 = [0.01, 4]
+    NMDA_tau_r_NMDA: tau_r_NMDA = [7, 15]
+    NMDA_tau_d_NMDA: tau_d_NMDA = [25, 90]
+    NMDA_n_NMDA: n_NMDA = 0.27
+    NMDA_gama_NMDA: gama_NMDA = 0.076

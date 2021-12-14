@@ -1,0 +1,55 @@
+model description:
+running number is19
+ check if the units in datat is good   
+ diameter*0.5 
+ check if its give more reasonable parameters
+ very small generation (10)
+
+Best individual values
+weight_AMPA0		0.5169536232824161	 [pico-Siemens]
+weight_NMDA0		3.9028163860934177	 [pico-Siemens]
+exp2syn_tau1		0.3976843766986247	 [mS]
+exp2syn_tau2		2.761790065664358	 [mS]
+NMDA_tau_r_NMDA		7.1132673586513055	 [mS]
+NMDA_tau_d_NMDA		26.813702640732366	 [mS]
+
+hall of fame 10
+key		     mean		     std             units
+weight_AMPA0	0.557	0.0273	 [pico-Siemens]
+weight_NMDA0	3.4662	0.5293	 [pico-Siemens]
+exp2syn_tau1	0.3599	0.0378	 [mS]
+exp2syn_tau2	2.8621	0.1119	 [mS]
+NMDA_tau_r_NMDA	8.2739	2.7233	 [mS]
+NMDA_tau_d_NMDA	28.9125	4.255	 [mS]
+
+		weight_AMPA0	weight_NMDA0	exp2syn_tau1	exp2syn_tau2	NMDA_tau_r_NMDA	NMDA_tau_d_NMDA	 RM
+0.001	0.004	0.398	2.762	7.113	26.814	1934.41
+Fitness values:(5.278981119753663,)
+0.001	0.003	0.393	2.983	8.586	28.698	1814.702
+Fitness values:(5.29787912332501,)
+0.001	0.004	0.392	2.729	5.511	33.581	1870.016
+Fitness values:(5.330348448611563,)
+0.001	0.003	0.383	2.974	4.204	29.585	1621.174
+Fitness values:(5.372784555185007,)
+0.001	0.003	0.33	2.957	9.572	27.662	1783.104
+Fitness values:(5.39447585409221,)
+0.001	0.004	0.31	2.934	9.267	25.24	1722.297
+Fitness values:(5.658768183050937,)
+0.001	0.003	0.305	2.982	4.339	39.497	1858.042
+Fitness values:(5.669959094882702,)
+0.001	0.004	0.391	2.747	11.453	25.461	1847.298
+Fitness values:(5.718286893208336,)
+0.001	0.003	0.385	2.693	12.174	25.388	1726.318
+Fitness values:(5.7768820538304295,)
+0.001	0.004	0.313	2.861	10.519	27.198	1818.139
+Fitness values:(5.797890677027045,)
+
+
+Final population: 200
+key		      mean		      std           units
+weight_AMPA0	0.6681	0.43	 [pico Siemens
+weight_NMDA0	3.0933	0.662	 [pico Siemens
+exp2syn_tau1	0.3307	0.0396	 [mS]
+exp2syn_tau2	2.7616	0.155	 [mS]
+NMDA_tau_r_NMDA	9.7303	3.1862	 [mS]
+NMDA_tau_d_NMDA	35.433	12.3983	 [mS]

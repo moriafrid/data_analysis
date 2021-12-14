@@ -1,0 +1,51 @@
+model description:
+
+ change the boundry for the AMPA weight   
+ little number of generation
+ the weight for the 1 synaps that groger send me is 0.14 for both NMDA and AMPA.
+
+Best individual values
+weight_AMPA0		0.0009385789014095189
+weight_NMDA0		0.001474195191452293
+exp2syn_tau1		0.39997665356458073
+exp2syn_tau2		2.999050030574617
+NMDA_tau_r_NMDA		4.502486611505739
+NMDA_tau_d_NMDA		80.31432152923571
+hall of fame 10
+key		mean		stdweight_AMPA0	0.001	0.0
+weight_NMDA0	0.002	0.001
+exp2syn_tau1	0.399	0.001
+exp2syn_tau2	2.999	0.001
+NMDA_tau_r_NMDA	6.194	0.909
+NMDA_tau_d_NMDA	82.799	5.093
+
+		weight_AMPA0	weight_NMDA0	exp2syn_tau1	exp2syn_tau2	NMDA_tau_r_NMDA	NMDA_tau_d_NMDA	 RM
+0.001	0.001	0.4	2.999	4.502	80.314	1065.441
+Fitness values:(15.223110592064856,)
+0.001	5.9101833962084925e-05	0.4	3.0	5.931	84.408	1045.902
+Fitness values:(15.227149149872695,)
+0.001	0.001	0.4	2.999	5.931	84.821	1087.124
+Fitness values:(15.227382550732036,)
+0.002	0.002	0.399	2.999	7.192	87.954	611.408
+Fitness values:(15.2346526886471,)
+0.00046706340106923597	0.002	0.397	3.0	6.25	84.461	2141.037
+Fitness values:(15.235082241547829,)
+0.001	0.003	0.397	2.997	4.918	79.663	710.133
+Fitness values:(15.235129036460565,)
+0.001	0.004	0.4	2.998	6.879	70.529	1288.543
+Fitness values:(15.235540741851585,)
+0.001	0.005	0.398	2.999	6.726	87.427	811.613
+Fitness values:(15.235565653174762,)
+0.002	0.002	0.4	3.0	7.56	80.249	488.809
+Fitness values:(15.235595514150196,)
+0.002	0.003	0.398	2.998	6.055	88.169	520.202
+Fitness values:(15.23569365815782,)
+
+
+Final population: 200key		mean		std
+weight_AMPA0	0.001	0.001
+weight_NMDA0	0.003	0.001
+exp2syn_tau1	0.396	0.009
+exp2syn_tau2	2.976	0.077
+NMDA_tau_r_NMDA	8.968	1.936
+NMDA_tau_d_NMDA	80.129	8.185

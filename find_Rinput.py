@@ -5,11 +5,8 @@ from scipy.optimize import curve_fit
 from open_pickle import read_from_pickle
 from add_figure import add_figure
 from glob import glob
-import seaborn as sns
 import numpy as np
-import tkinter
-import matplotlib
-#matplotlib.use('TkAgg')
+
 
 def linear(x, m, c):
     return m*x+c
@@ -17,7 +14,7 @@ def linear(x, m, c):
 def find_Rinput(folder_):
     Rinput_list=[]
     for file in glob(folder_+'*.p'):
-        t, T = read_from_pickle(file)
+        t = read_from_pickle(file)
         T = np.linspace(-220, 220, len(t))
         t=t - np.mean(t)
         peaks, properties = find_peaks(abs(t), threshold=3, distance=20000)
@@ -47,9 +44,9 @@ def find_Rinput(folder_):
         Rinput_list.append(popt[0])
         plt.savefig(file[:-2]+'fit')
 
-    print('the fit is '+str(popt[0]))
-    print('the bias before constraint of [0,0] is: '+str(popt[1]))
-    print('the covarience is '+str(pcov))
+    print('the fit for the slope is '+str(popt[0])+' mV/pA',flush=True)
+    print('the bias before constraint of [0,0] is: '+str(popt[1]),flush=True)
+    print('the covarience is '+str(pcov),flush=True)
     plt.show()
     return np.mean(Rinput_list),Rinput_list
 
