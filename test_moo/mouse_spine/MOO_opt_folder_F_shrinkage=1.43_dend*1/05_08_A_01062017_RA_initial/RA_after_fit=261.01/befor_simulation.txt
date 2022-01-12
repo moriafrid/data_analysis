@@ -1,0 +1,30 @@
+model description:
+the file to fit is ../data/correct_syn/mean_syn.p
+generation size is 100 and num of generation is 1000
+Running with  RA_initial that had the paremeters:
+{'05_08_A_01062017': {'RM': 11365.881494109835, 'RA': 261.0058, 'CM': 3.7031570418526956}}
+The shrinking factor is 1.43
+the dendrite isn't resize
+calculated F_factor and change it to be 2.03
+
+neck resistance is 1.553
+Model:
+  morphology:
+    /ems/elsc-labs/segev-i/moria.fridman/project/data_analysis_git/data_analysis/try1.swc
+  mechanisms:
+    pas: pas at ['somatic', 'basal', 'apical', 'axonal']
+    exp2syn_0: Exp2Syn at ['spineHead0(1)']
+    NMDA_0: NMDA at ['spineHead0(1)']
+  params:
+    Ra: ['somatic', 'basal', 'apical', 'axonal'] Ra = 261.0058
+    g_pas: ['somatic', 'basal', 'apical', 'axonal'] g_pas = 8.798261714397005e-05
+    cm: ['somatic', 'basal', 'apical', 'axonal'] cm = 3.7031570418526956
+    e_pas: ['somatic', 'basal', 'apical', 'axonal'] e_pas = -77.386734
+    weight_AMPA: weight[0] = [0.0, 0.01]
+    weight_NMDA: weight[0] = [0.0, 0.005]
+    exp2syn_tau1: tau1 = [0.001, 2.1]
+    exp2syn_tau2: tau2 = [0.01, 4]
+    NMDA_tau_r_NMDA: tau_r_NMDA = [7, 15]
+    NMDA_tau_d_NMDA: tau_d_NMDA = [25, 90]
+    NMDA_n_NMDA: n_NMDA = 0.27
+    NMDA_gama_NMDA: gama_NMDA = 0.076

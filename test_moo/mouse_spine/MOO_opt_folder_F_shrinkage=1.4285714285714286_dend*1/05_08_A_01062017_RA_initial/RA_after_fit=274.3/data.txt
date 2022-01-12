@@ -1,0 +1,45 @@
+model description:
+the file to fit is ../data/correct_syn/mean_syn.p
+generation size is 2 and num of generation is 2
+Running with  RA_initial that had the paremeters:
+{'05_08_A_01062017': {'RM': 10880.792318609147, 'RA': 274.30326170576717, 'CM': 3.988697775910991}}
+The shrinking factor is 1.4285714285714286
+the dendrite isn't resize
+calculated F_factor and change it to be 2.03
+
+Best individual values
+weight_AMPA		8.056271362589001	 [nano-Siemens]
+weight_NMDA		3.9702950525904908	 [nano-Siemens]
+exp2syn_tau1		0.06276467256184666	 [mS]
+exp2syn_tau2		0.7068789695815033	 [mS]
+NMDA_tau_r_NMDA		7.017839009279828	 [mS]
+NMDA_tau_d_NMDA		68.15239933603264	 [mS]
+
+hall of fame 4
+key		     mean		     std             units
+weight_AMPA	4.4134	3.6429	 [nano-Siemens]
+weight_NMDA	2.705	1.4555	 [nano-Siemens]
+exp2syn_tau1	0.1146	0.0761	 [mS]
+exp2syn_tau2	0.9054	0.1286	 [mS]
+NMDA_tau_r_NMDA	8.8731	1.802	 [mS]
+NMDA_tau_d_NMDA	55.8937	13.1015	 [mS]
+
+		weight_AMPA	weight_NMDA	exp2syn_tau1	exp2syn_tau2	NMDA_tau_r_NMDA	NMDA_tau_d_NMDA	 RM
+0.0081	0.004	0.0628	0.7069	7.0178	68.1524	124.127
+Fitness values:(8.483382480723215, 0.2821110003640115)
+0.0081	0.0043	0.064	1.0669	7.1404	68.1524	124.127
+Fitness values:(8.561522509528531, 6.4412847089556635)
+0.0008	0.0013	0.2453	0.9238	10.8993	37.0968	1297.87
+Fitness values:(12.682529082768713, 19.378386733380637)
+0.0008	0.0012	0.0863	0.9238	10.4346	50.1731	1297.87
+Fitness values:(13.201076525095393, 20.545903753247217)
+
+
+Final population: 4
+key		      mean		      std           units
+weight_AMPA	4.4134	3.6429	 [nano Siemens]
+weight_NMDA	2.705	1.4555	 [nano Siemens]
+exp2syn_tau1	0.1146	0.0761	 [mS]
+exp2syn_tau2	0.9054	0.1286	 [mS]
+NMDA_tau_r_NMDA	8.8731	1.802	 [mS]
+NMDA_tau_d_NMDA	55.8937	13.1015	 [mS]
