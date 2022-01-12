@@ -26,7 +26,8 @@ class NrnSegmentSomaDistanceScaler_(ParameterScaler, DictMixin):
             dist_param_names=None,
             dist_thresh_apical=60,
             dist_thresh_basal=60,
-            F_factor = 1.9):
+            F_factor = 1.9,
+            shrinckage_factor = 1.0/0.7):
 
         """Constructor
 
@@ -59,6 +60,7 @@ class NrnSegmentSomaDistanceScaler_(ParameterScaler, DictMixin):
         self.dist_thresh_apical = dist_thresh_apical
         self.dist_thresh_basal = dist_thresh_basal
         self.F_factor = F_factor
+        self.shrinckage_factor=shrinckage_factor
 
 
     def scale(self, value, sec, sim=None):
@@ -73,7 +75,7 @@ class NrnSegmentSomaDistanceScaler_(ParameterScaler, DictMixin):
             if sec.name().find("spine") > -1:
                 spine_factor = 1
             elif sec in sec.cell().apical:
-                if  distance > self.dist_thresh_apical:
+                if distance > self.dist_thresh_apical:
                     spine_factor = self.F_factor
                 else:
                     spine_factor = 1  # no change
@@ -89,9 +91,9 @@ class NrnSegmentSomaDistanceScaler_(ParameterScaler, DictMixin):
             sim.neuron.h.pop_section()
             # print(sec.name(), distance, value, value*spine_factor)
 
-            return value * spine_factor
+            return value * spine_factor# * self.shrinckage_factor
         except:
-            return value
+            return value #* self.shrinckage_factor
         # if self.name.find('cm') > -1: return value * spine_factor
         # if self.name.find('g_pas') > -1: return value * spine_factor
         #

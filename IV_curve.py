@@ -4,7 +4,6 @@ import numpy as np
 from tqdm import tqdm
 from add_figure import add_figure
 import pickle
-from scipy.signal import find_peaks
 from scipy.optimize import curve_fit
 import quantities as pq
 
@@ -41,16 +40,16 @@ def sepereat_by_current(t,T,I,f):
     return (maxi-np.array(rest2))
 
 def I_V_curve(maxi,I,save_file):
-    add_figure('I-V curve\nfit to V=I*m','current [pA]','Voltage [mV]')
-    plt.plot(I,maxi,'.')
+    add_figure('I-V Curve\nfit to V=I*Rinput','Current I[pA]','Voltage V[mV]')
+    plt.plot(I,maxi,'.',label='max volt to diffrent current inject')
     popt, pcov = curve_fit(linear, np.array(I), np.array(maxi))
-    plt.plot(I, linear(np.array(I), *popt))
-    plt.plot(I[-1],maxi[-1],'*')
+    plt.plot(I, linear(np.array(I), *popt),label='fit=I*'+str(round(popt[0]*1e-12/1e-3*1e12,3))+'pohm')
+    plt.plot(I[-1],maxi[-1],'*',label=str(I[-1])+'pA')
     I_50=[0,I[-1]]
     maxi_50=[0,maxi[-1]]
     popt1, pcov1 = curve_fit(linear, np.array(I_50), np.array(maxi_50))
-    plt.plot(I, linear(np.array(I), *popt1))
-    plt.legend(['max volt to diffrent current inject','fit=I*'+str(round(popt[0]*1e-12/1e-3*1e12,3))+'pohm',str(I[-1])+'pA','fit=I*'+str(round(popt1[0]*1e-12/1e-3*1e12,3))+'pohm'])
+    plt.plot(I, linear(np.array(I), *popt1),label='fit=I*'+str(round(popt1[0]*1e-12/1e-3*1e12,3))+'pohm')
+    plt.legend()
     # plt.legend(['max volt to diffrent current inject','fit=I*'+str(round(popt[0]*1e-12/1e-3*1e12,3))+'pohm',str(I[-1])+'pA'])
     plt.savefig( save_file+ 'I_V_curve_fit')
     print('The input resistance from I_V cureve is ',round(popt[0]*1e-12/1e-3*1e12,3),'pOhm')

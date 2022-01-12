@@ -13,7 +13,7 @@
 set -e
 set -x
 
-PWD=$(pwd)
+PWD=$(pwd)$4
 LOGS=$PWD/logs
 mkdir -p $LOGS
 

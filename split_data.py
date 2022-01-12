@@ -80,7 +80,9 @@ def split2phenomena(folder_):
 			I_V_curve(maxi,I*pq.pA,save_folder_IV_curve)
 			check_dynamics(short_pulse, T_short_pulse, folder_+'data/')
 
-
+if __name__=='__main__':
+    folder_ = '/ems/elsc-labs/segev-i/moria.fridman/project/data_analysis_git/data_analysis/'
+    split2phenomena(folder_)
 
 
 

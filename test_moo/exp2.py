@@ -43,9 +43,9 @@ for type in ['hand','outomatic']:
         V_NMDA = V_soma_All-V_soma_AMPA
         from add_figure import add_figure
         passive_propert_title='Rm='+str(round(1.0/model.dend[82].g_pas,2)) +' Ra='+str(round(model.dend[82].Ra,2))+' Cm='+str(round(model.dend[82].cm,2))
-        add_figure('AMPA and NMDA impact on voltage '+" ".join(model_place.split('/')[-1].split('_')[2:])+'\n'+passive_propert_title,'mV','mS')
-        plt.plot(time_all, V_soma_All, color='k', label='all')
-        plt.plot(time_all, V_soma_AMPA, color='b', linestyle='--', label='AMPA')
-        plt.plot(time_all, V_NMDA+V_soma_All[0], color='r', linestyle='--', label='NMDA')
+        add_figure('AMPA and NMDA impact on voltage '+" ".join(model_place.split('/')[-1].split('_')[2:])+'\n'+passive_propert_title,'time[ms]','Voltage[mV]')
+        plt.plot(time_all, V_soma_All, color='g', lw=5,label='all',alpha=0.4)
+        plt.plot(time_all, V_soma_AMPA, color='b', lw=2,linestyle='--', label='AMPA',alpha=0.8)
+        plt.plot(time_all, V_NMDA+V_soma_All[0],lw=2, color='r', linestyle='--', label='NMDA',alpha=0.8)
         plt.legend()
         plt.savefig(folder_+model_place.split('/')[-1]+'.png')

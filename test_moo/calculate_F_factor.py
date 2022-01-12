@@ -34,7 +34,6 @@ def instantiate_swc(filename):
 def SIGSEGV_signal_arises(signalNum, stack):
     print(f"{signalNum} : SIGSEGV arises")
     # Your code
-
 signal.signal(signal.SIGSEGV, SIGSEGV_signal_arises)
 
 ######################################################
@@ -42,22 +41,22 @@ signal.signal(signal.SIGSEGV, SIGSEGV_signal_arises)
 ######################################################
 
 fname = "05_08_A_01062017_Splice_shrink_FINISHED_LABEL_Bluecell_spinec91.ASC"
-# cell=instantiate_swc('/ems/elsc-labs/segev-i/moria.fridman/project/data_analysis_git/data_analysis/try1.swc')
-# cell =mkcell(fname)
-# print (cell)
-# sp = h.PlotShape()
-# sp.show(0)  # show diameters
-def calculate_F_factor(cell_name,r_head,spine_neck_L,spine_neck_diam,spine_density=1.2):
+def calculate_F_factor(cell_name,r_head,spine_neck_L,spine_neck_diam,spine_density=1.08,resize_dend=1, shrinkeage=1):
     file_name=glob(cell_name+'*.ASC')[0]
     cell = mkcell(file_name)
+    # cell=instantiate_swc('/ems/elsc-labs/segev-i/moria.fridman/project/data_analysis_git/data_analysis/try1.swc')
     for sec in cell.axon:
        h.delete_section(sec=sec)
+    for sec in h.allsec():
+        sec.diam*=resize_dend
+        sec.L*=shrinkeage
     dend_len=np.sum([sec.L for sec in cell.dend])
     spine_in_Micron_density = spine_density  # 12/10 #[N_spine/micrometer] number of spines in micrometer on the dendrite
     head_area=4*pi*r_head**2
     neck_area=2*pi*(spine_neck_diam/2)*spine_neck_L
     spine_area=neck_area+head_area
     spines_area=spine_area*dend_len*spine_in_Micron_density
-    dends_area=np.sum([seg.area() for sec in cell.dend for seg in sec])
+    dends_area=np.sum([seg.area() for sec in cell.dend for seg in sec]) #* (1.0/0.7)
     F_factor=(spines_area+dends_area)/dends_area
     return F_factor
+

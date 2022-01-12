@@ -7,10 +7,10 @@ from open_pickle import read_from_pickle
 import os
 from tqdm import tqdm
 from add_figure import add_figure
-import quantities as pq
 from glob import glob
 import pickle
 from calculate_F_factor import calculate_F_factor
+
 path_single_traces=glob('data/traces_img/2017_05_08_A_0006/*pA.p')
 path=path_single_traces[0]
 I=int(path[path.rfind('/')+1:path.rfind('pA')])
@@ -20,15 +20,16 @@ path='/ems/elsc-labs/segev-i/moria.fridman/project/data_analysis_git/data_analys
 I=-50
 
 SPINE_START = 60
-resize_diam_by=1.545
-CM=1#2/2
-RM=5684*2#*2
-RA=70
+shrinkage_factor=1#1.0/0.7
+resize_diam_by=1
 
-start_fit=0# 2960
+CM=1#2/2
+RM=15000#5684*2#*2
+RA=100
+
+start_fit= 2000
 end_fit=4900#3960
 
-do_calculate_F_factor=True
 print('the injection current is',I,flush=True)
 folder_='/ems/elsc-labs/segev-i/moria.fridman/project/data_analysis_git/data_analysis/'
 h.load_file("import3d.hoc")
@@ -36,29 +37,27 @@ h.load_file("nrngui.hoc")
 h.load_file('stdlib.hoc')
 h.load_file("stdgui.hoc")
 # h.loadfile("stdrun.hoc")
-if do_calculate_F_factor:
+do_calculate_F_factor=True
+spine_type="mouse_spine"
+if spine_type=="groger_spine":
     V_head=0.14
     spine_neck_diam=0.164
     spine_neck_L=0.782
-
-
-
-# useto open the ASc file, for now isn't working
-class MyCell:
-    def __init__(self):
-        morph_reader = h.Import3d_Neurolucida3()
-        morph_reader.input('/ems/elsc-labs/segev-i/moria.fridman/project/data_analysis_git/data_analysis/05_08_A_01062017_Splice_shrink_FINISHED_LABEL_Bluecell_spinec91.ASC')
-        i3d = h.Import3d_GUI(morph_reader, 0)
-        i3d.instantiate(self)
-#m = MyCell()
-
+elif spine_type=="mouse_spine":
+    #mouse
+    from math import pi
+    head_area=0.37
+    r_head=np.sqrt(head_area/(4*pi))
+    spine_neck_L=0.73
+    # HEAD_DIAM=0.667
+    spine_neck_diam=0.25 #0.164/07=0.23
+    spine_density=1.08
+    V_head=4/3*pi*r_head**3
 
 def SIGSEGV_signal_arises(signalNum, stack):
     print(f"{signalNum} : SIGSEGV arises")
     # Your code
-
 signal.signal(signal.SIGSEGV, SIGSEGV_signal_arises)
-
 def get_inj(T,I,V):
     #found the begining,end and median of the injection
     I_abs = np.abs(I)
@@ -75,12 +74,10 @@ def change_model_pas(CM=1, RA = 250, RM = 20000.0, E_PAS = -70.0, F_factor = {})
 
     h.distance(0,0.5, sec=soma) # it isn't good beacause it change the synapse distance to the soma
     #h.distance(0, sec=soma)
-    for sec in cell.all: ##check if we need to insert Ra,cm,g_pas,e_pas to the dendrit or just to the soma
-        if isinstance(cell, Cell):
-            if sec in cell.axon: continue   #@# cell.axon is not exist in hoc object
+    for sec in h.allsec(): ##check if we need to insert Ra,cm,g_pas,e_pas to the dendrit or just to the soma
         sec.Ra = RA
-        sec.cm = CM
-        sec.g_pas = 1.0 / RM
+        sec.cm = CM#*(1.0/0.7)
+        sec.g_pas = (1.0 / RM)#*(1.0/0.7)
         sec.e_pas = E_PAS
     for sec in cell.dend:
         for seg in sec: #count the number of segment and calclate g_factor and total dend distance,
@@ -100,14 +97,23 @@ def plot_res(RM, RA, CM, save_name= "fit",print_full_graph=False):
     folder_="data/fit/"
     try: os.mkdir(folder_)
     except FileExistsError: pass
-    if resize_diam_by==1:
-        try: os.mkdir(folder_+str(I)+'pA/')
+    if resize_diam_by!=1 and shrinkage_factor!=1:
+        try: os.mkdir(folder_+'dend*'+str(round(resize_diam_by,2))+' &shrinkage by '+str(round(shrinkage_factor,2))+'_'+str(I)+'pA/')
         except FileExistsError: pass
-        save_folder=folder_+str(I)+'pA/'
-    else:
+        save_folder=folder_+'dend*'+str(round(resize_diam_by,2))+' &shrinkage by '+str(round(shrinkage_factor,2))+'_'+str(I)+'pA/'
+    elif resize_diam_by!=1:
         try: os.mkdir(folder_+'dend*'+str(resize_diam_by)+'_'+str(I)+'pA/')
         except FileExistsError: pass
         save_folder=folder_+'dend*'+str(resize_diam_by)+'_'+str(I)+'pA/'
+    elif shrinkage_factor!=1:
+        try: os.mkdir(folder_+'F_shrinkage='+str(round(shrinkage_factor,2))+'_'+str(I)+'pA/')
+        except FileExistsError: pass
+        save_folder=folder_+'F_shrinkage='+str(round(shrinkage_factor,2))+'_'+str(I)+'pA/'
+    else:
+        try: os.mkdir(folder_+str(I)+'pA/')
+        except FileExistsError: pass
+        save_folder=folder_+str(I)+'pA/'
+
     # creat a clamp and record it for the chosen parameter
     ## save_name need to incloud the folder path
     change_model_pas(CM=CM, RA=RA, RM=RM, E_PAS = E_PAS)
@@ -175,15 +181,13 @@ def efun(vals):
             return (1e6)
         RA = vals.x[RA_IX]
     else:RA = RA_const
-    if (CM < 0.3 or RM < 2000 or RA <1):
+    if (CM < 0.3 or RM < 2000 or RA <50):
         return 1e6
     # print('RA:',RA, '   CM:',CM, '   RM:',RM)
 
     change_model_pas(CM=CM, RA=RA, RM = RM, E_PAS = E_PAS)
     Vvec = h.Vector()
     Vvec.record(soma(0.5)._ref_v)
-
-
 
     h.run()
     npVec = np.array(Vvec)
@@ -210,7 +214,6 @@ def mkcell(fname):
     c = Cell()
     loader.instantiate(c)
     return c
-
 def instantiate_swc(filename):
     h('objref cell, tobj')
     h.load_file('allen_model.hoc')
@@ -222,8 +225,6 @@ def instantiate_swc(filename):
     i3d = h.Import3d_GUI(nl, 0)
     i3d.instantiate(h.cell)
     return h.cell
-
-#############    print('RA:',RA, 'CM',CM, 'RM',RM)
 #########################################
 # build the model
 ######################################################
@@ -231,28 +232,23 @@ def instantiate_swc(filename):
 fname = "05_08_A_01062017_Splice_shrink_FINISHED_LABEL_Bluecell_spinec91.ASC"
 # cell=instantiate_swc('/ems/elsc-labs/segev-i/moria.fridman/project/data_analysis_git/data_analysis/try1.swc')
 cell =mkcell(fname)
-# print (cell)
-# sp = h.PlotShape()
-# sp.show(0)  # show diameters
-
+print (cell)
+sp = h.PlotShape()
+sp.show(0)  # show diameters
 ## delete all the axons
 for sec in cell.axon:
    h.delete_section(sec=sec)
 
 soma= cell.soma[0]
-# for sec in soma.children():
-#     if isinstance(cell, Cell):
-
-
-for sec in h.allsec():
-    if sec == cell.soma[0]: continue
-    sec.diam = sec.diam*resize_diam_by
 
 #insert pas to all other section
-
 for sec in tqdm(h.allsec()):
     sec.insert('pas') # insert passive property
     sec.nseg = int(sec.L/10)+1  #decide that the number of segment will be 21 with the same distances
+for sec in h.allsec():
+    sec.diam = sec.diam*resize_diam_by
+    sec.L*=shrinkage_factor
+
 
 
 # clamp = h.IClamp(cell.dend[82](0.996)) # insert clamp(constant potentientiol) at the soma's center
@@ -284,16 +280,14 @@ else:
     E_PAS = np.mean(V[2945-500:2945])
     # E_PAS = np.mean(V[:2000])
 
-#V+=E_PAS
-
 h.tstop = (T[-1]-T[0])
 h.v_init=E_PAS
 h.dt = 0.1
 h.steps_per_ms = h.dt
 
-CM_IX = 2 #0
+CM_IX = 2
 RM_IX=0
-RA_IX = 1 #2
+RA_IX = 1
 
 RM_const = 60000.0
 RA_const = 100
@@ -334,53 +328,14 @@ for i in range(3):
     else:
         save_folder=plot_res(CM=CM, RM=RM, RA=RA, save_name="_fit_after_" + str(i + 1))
 
-    imp.compute(0)
-    print('the impadence is',imp.input(0))
+    # imp.compute(0)
+    # print('the impadence is',imp.input(0))
 pickle.dump({
         "RM": RM,
         "RA": RA,
         "CM": CM
     }, open(save_folder+'/' + "final_result_dend*"+str(resize_diam_by)+".p", "wb"))
 #
-
-# soma_ref = h.SectionRef(sec=cell.soma[0])
-# print("the soma's childrens diameter is:")
-# for i in range(soma_ref.nchild()):
-#     print(soma_ref.child[i](0).diam,soma_ref.child[i](0))
-# length = 0
-# for dend in cell.dend:
-#     length += dend.L
-# print("total dendritic length is ", length)
-#
-#
-# # track from the terminals to the soma
-# def track_one(terminal):
-#     h.distance(0, 0.5, sec=cell.soma[0])
-#     sec = terminal
-#     dis = []
-#     diam = []
-#     while sec != soma:
-#         if isinstance(cell, Cell):
-#             if sec in cell.axon: continue
-#         dis.append(h.distance(sec.parentseg()))
-#         sec_ref = h.SectionRef(sec=sec)
-#         diam.append(sec.diam)
-#         sec = sec_ref.parent
-#     return np.array(dis), np.array(diam)
-#
-#
-# terminals = []
-# for sec in cell.dend:
-#     if len(sec.children()) == 0:
-#         terminals.append(sec)
-# plt.close()
-# add_figure('dendritic tree without constant branchs', 'distance from soma', 'diameter')
-# i = 0
-# for terminal in terminals:
-#     dis, diam = track_one(terminal)
-#     if round(np.mean(np.array(diam)),3)!=round(diam[-1],3):
-#         i += 1
-#         plt.plot(dis, diam, alpha=0.5)
 
 
 

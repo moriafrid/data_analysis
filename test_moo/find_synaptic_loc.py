@@ -3,7 +3,7 @@ from neuron import h,gui
 import signal
 from glob import glob
 
-def synaptic_loc(cell_name,syn_poses):
+def synaptic_loc(cell_name, syn_poses):
     print('unsure axon is deleted before synaptic_loc.py or insert del_axon=False')
     #syn_poses should be (x,y,z) coordinates
     h.load_file("import3d.hoc")

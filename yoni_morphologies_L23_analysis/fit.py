@@ -34,7 +34,6 @@ class MyCell:
 def SIGSEGV_signal_arises(signalNum, stack):
     print(f"{signalNum} : SIGSEGV arises")
     # Your code
-
 signal.signal(signal.SIGSEGV, SIGSEGV_signal_arises)
 
 def get_inj(T,I,V):
@@ -113,7 +112,7 @@ def efun(vals):
     else: RM = RM_const
 
     if CM_IX != -1:
-        if vals.x[CM_IX] > 1:
+        if vals.x[CM_IX] > 2:
             return (1e6)
         CM = vals.x[CM_IX]
     else:CM = CM_const

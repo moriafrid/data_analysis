@@ -22,4 +22,4 @@ path=$(dirname $SCRIPT_PATH)
 # If necessary, activate anaconda installed on your user (Default: /ems/..../<lab>/<user>/anaconda3
 # source anaconda3/bin/activate
 # put your script here - example script is sitting with this bash script
-python3 $path/best_with_const_param.py
+python3 $path/fit_influnce_by_initial_condition.py

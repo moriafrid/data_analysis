@@ -4,6 +4,11 @@ import gc
 from open_pickle import read_from_pickle
 import matplotlib.pyplot as plt
 from add_figure import add_figure
+import signal
+def SIGSEGV_signal_arises(signalNum, stack):
+    print(f"{signalNum} : SIGSEGV arises")
+signal.signal(signal.SIGSEGV, SIGSEGV_signal_arises)
+
 def reshape_data(data):
 	minlen = min(len(r) for r in data)
 	new = []
@@ -164,7 +169,7 @@ def phenomena(t,T,base,x_units='S',Y_units='mV'):
 		plt.plot(np.mean(phenomena,axis=0),'black',lw=3)
 		plt.savefig(base+names[i]+'/clear_'+names[i])
 		with open(base +names[i]+'/clear_'+names[i]+'.p', 'wb') as f:
-			pickle.dump( np.array(new_syn2), f)
+			pickle.dump( [np.array(phenomena),eval('T_'+names[i])], f)
 
 	with open(base + '/V1/clear_V.p', 'wb') as f:
 		pickle.dump( np.array(new_V), f)

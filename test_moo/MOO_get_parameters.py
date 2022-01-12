@@ -1,6 +1,8 @@
-#! /ems/elsc-labs/segev-i/yoni.leibner/anaconda2/bin/ipython
-#77
-from __future__ import print_function
+#
+#!/ems/elsc-labs/segev-i/moria.fridman/anaconda3/envs/project/bin/python
+
+# from __future__ import print_function
+import binstar_client.utils
 import bluepyopt as bpopt
 import bluepyopt.ephys as ephys
 import pprint
@@ -8,77 +10,65 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
 import os, pickle
-import quantities as pq
 from add_figure import add_figure
 from open_pickle import read_from_pickle
 from calculate_F_factor import calculate_F_factor
+import sys
 matplotlib.use('agg')
-
 # import argparse
 # parser = argparse.ArgumentParser(description='')
-# parser.add_argument('RM', type=float)
-# parser.add_argument('CM', type=float)
-# parser.add_argument('RA', type=float)
-#
+# parser.add_argument('--RM', type=float)
+# parser.add_argument('--CM', type=float)
+# parser.add_argument('--RA', type=float)
+# parser.add_argument('--passive_val_name', type=str)
 # args = parser.parse_args()
-# RM = args.RM
 
-runnum='79' #change for every running
-passive_val_name ="fit.py_solution_outomatic" #or "fit.py_solution_hand","Ra_250","Ra_100"
-hand_option='free_fit'
-#dict_hand_option.keys='paper_par','free_fit','CM=1','RA=70','RA=0':
-RDSM_objective_file = "/ems/elsc-labs/segev-i/moria.fridman/project/data_analysis_git/data_analysis/data/correct_syn/mean_syn.p"
+cpu_node = float(sys.argv[1])
+print('cpu node=',cpu_node, flush=True)
+RM = float(sys.argv[2])
+print('RM=',RM, flush=True)
+RA = float(sys.argv[3])
+CM = float(sys.argv[4])
+shrinkage_by=float(sys.argv[5])
+resize_dend_by=float(sys.argv[6])
+passive_val_name=sys.argv[7]
+profile = sys.argv[8]
+RDSM_objective_file = "../data/correct_syn/mean_syn.p"
 
-generation_size = 10
-num_of_genarations = 31
-do_resize_dend=True
-resize_dend_by=1
-shrinkage_by=1.0/0.7
+
+# RM = 25000
+# RA = 250
+# CM = 1
+# passive_val_name='RA_initial'
+# profile = ''
+print('profile=',profile)
+
+generation_size = 2
+num_of_genarations = 2
+
+
+do_calculate_F_factor=True
+do_resize_dend=False
 
 do_run_another_morphology=False
 another_morphology_resize_dend_by=1
 do_compare2result = False
-do_calculate_F_factor=True
 frozen_NMDA_weigth=False
-
 runnum2compare = '13'
+spine_type="mouse_spine" #"groger_spine"
 
-model_description='running number is '+ str(runnum)+\
-'\nthe file to fit is '+RDSM_objective_file+\
-    '\n change the boundery NMDA arease time (NMDA_tau_r) to be longer [7,15] '\
-    '\n+peak_objective after yoni correction'\
-'\ncorrect the syn to *short* syn with cut_off aqual to syn_time2clear2 + 1200'\
+model_description='the file to fit is '+RDSM_objective_file+\
             '\ngeneration size is '+str(generation_size)+' and num of generation is '+str(num_of_genarations)
+
+passive_val = {'05_08_A_01062017':{'RM':RM,'RA':RA,'CM':CM}}
+model_description=model_description+'\nRunning with  '+passive_val_name+ ' that had the paremeters:\n'+str(passive_val)+'\nThe shrinking factor is '+str(round(shrinkage_by,2))
+# passive_val = {'05_08_A_01062017':{'RM':RM*1.0/shrinkage_by,'RA':RA,'CM':CM*shrinkage_by}}
 
 if do_resize_dend:
     model_description=model_description+'\nthe dendrite resize by '+str(resize_dend_by)
 else:
     model_description = model_description+ "\nthe dendrite isn't resize"
     resize_dend_by = 1
-
-if passive_val_name == "fit.py_solution_outomatic":
-    if resize_dend_by==1:
-        path_fit='/ems/elsc-labs/segev-i/moria.fridman/project/data_analysis_git/data_analysis/data/fit/-50pA/final_result_dend*'+str(resize_dend_by)+'.p'
-    else:
-        path_fit='/ems/elsc-labs/segev-i/moria.fridman/project/data_analysis_git/data_analysis/data/fit/'+'dend*'+str(resize_dend_by)+'_-50pA/final_result_dend*'+str(resize_dend_by)+'.p'
-
-    with open(path_fit, 'rb') as file:
-        try:
-            while True:object_file = pickle.load(file)
-        except EOFError:pass
-    passive_val = {'05_08_A_01062017': object_file}
-elif passive_val_name == "groger_result":
-                   passive_val={'05_08_A_01062017':{'CM': 1, 'RA': 100, 'RM': 5684*2}}
-elif passive_val_name == "fit.py_solution_hand":
-    dict_hand_option={'paper_par': {'CM':1,'RM':11368, 'RA':100},
-            'free_fit': {'RM':12371, 'RA':95.7, 'CM':1.88},
-            'CM=1':{'RM':12990.8,'RA':75.1,'CM':1},
-            'RA=70':{'RM':13163.2,'RA':70,'CM':1.51},
-            'RA=0':{'RM':15641,'RA':1e-9,'CM':1.2}}
-    passive_val = {'05_08_A_01062017':dict_hand_option[hand_option]}
-
-model_description=model_description+'\nrunning with  '+passive_val_name+ ' that had the paremeters:\n'+str(passive_val)
-
 if do_compare2result:
     model_description=model_description+'\nwe compare to another running:'+runnum2compare
 
@@ -145,7 +135,7 @@ def create_spine(sim, icell, sec, pos, number=0, neck_diam=0.25, neck_length=1.3
     return [neck, head]
 
 
-def add_morph(sim, icell, syns):
+def add_morph(sim, icell, syns, spine_properties):#,spine_property=self.spine_propertie
     all = []
     # sim.neuron.h.execute('create spineNeck['+str(len(syns))+']', icell)
     # sim.neuron.h.execute('create spineHead['+str(len(syns))+']', icell)
@@ -159,12 +149,9 @@ def add_morph(sim, icell, syns):
             sec = icell.apic[num]
         else:
             sec = icell.soma[0]
-        if spine_type == "groger_spine":
-            all.append(create_spine(sim, icell, sec, syn[1], i, neck_diam=spine_neck_diam, neck_length=NECK_LENGHT,
-                                head_diam=HEAD_DIAM))
-        else:
-            all.append(create_spine(sim, icell, sec, syn[1], i, neck_diam=0.25, neck_length=NECK_LENGHT,
-                                head_diam=HEAD_DIAM))
+        all.append(create_spine(sim, icell, sec, syn[1], i, neck_diam=spine_properties['neck_diam'], neck_length=spine_properties['neck_length'],
+                            head_diam=spine_properties['head_diam']))
+
     # neck_length=1.35
     return all
 
@@ -212,34 +199,27 @@ def run(cell, seed=0):
     # E_PAS=np.mean(V_base[:syn_place-10])
     try: os.mkdir(base2)
     except: pass
-    try:  os.mkdir(base2 + 'MOO_opt_folder_same_w_peel_syn_spines_featues_cm_g_pas_first_seed_' + str(seed))
+    second_folder='MOO_opt_folder_F_shrinkage='+str(round(shrinkage_by,2))+'_dend*'+str(round(resize_dend_by,2))
+    # second_folder='MOO_opt_folder_same_w_peel_syn_spines_featues_cm_g_pas_first_seed_' + str(seed)
+    try:  os.mkdir(base2 + second_folder)
     except: pass
-    try: os.mkdir(base2 + 'MOO_opt_folder_same_w_peel_syn_spines_featues_cm_g_pas_first_seed_' + str(seed) + '/' + cell + '_'+passive_val_name)
+    try: os.mkdir(base2 + second_folder + '/' + cell + '_'+passive_val_name)
     except: pass
-    if passive_val_name=="fit.py_solution_hand":
-        try: os.mkdir(base2 + 'MOO_opt_folder_same_w_peel_syn_spines_featues_cm_g_pas_first_seed_' + str(seed) + '/' + cell + '_'+passive_val_name+'/run_' + runnum+'_'+hand_option)
+    if "const" in passive_val_name:
+        try: os.mkdir(base2 + second_folder + '/' + cell + '_'+passive_val_name+'/' +passive_val_name+'='+str(round(RA,2)))
         except: pass
-    elif passive_val_name=="fit.py_solution_outomatic" and do_resize_dend:
-        try: os.mkdir(base2 + 'MOO_opt_folder_same_w_peel_syn_spines_featues_cm_g_pas_first_seed_' + str(seed) + '/' + cell + '_'+passive_val_name+'/run_' + runnum+'_dend*'+str(resize_dend_by))
-        except:pass
-    else:
-        try: os.mkdir(base2 + 'MOO_opt_folder_same_w_peel_syn_spines_featues_cm_g_pas_first_seed_' + str(seed) + '/' + cell + '_'+passive_val_name+'/run_' + runnum)
+    elif "initial" in passive_val_name:
+        try: os.mkdir(base2 + second_folder + '/' + cell + '_'+passive_val_name+'/RA_after_fit='+str(round(RA,2)))
         except: pass
 
     ###################################################################################
     # make morphology png fig and load morphology to opt
     ###################################################################################
-    if passive_val_name=="fit.py_solution_hand":
-        base_save_folder = base2 + 'MOO_opt_folder_same_w_peel_syn_spines_featues_cm_g_pas_first_seed_' + str(
-            seed) + '/' + cell+'_' +passive_val_name+ "/"+'run_'+runnum+'_'+hand_option+'/'
-    elif passive_val_name == "fit.py_solution_outomatic" and do_resize_dend:
-        base_save_folder=base2 + 'MOO_opt_folder_same_w_peel_syn_spines_featues_cm_g_pas_first_seed_' + str(
-            seed) + '/' + cell + '_' + passive_val_name + '/run_' + runnum + '_dend*' + str(resize_dend_by)+'/'
-    else:
-        base_save_folder = base2 + 'MOO_opt_folder_same_w_peel_syn_spines_featues_cm_g_pas_first_seed_' + str(
-            seed) + '/' + cell + '_'+passive_val_name+"/"+'run_'+runnum+'/'
-
-    # to insert syn here?
+    if "const" in passive_val_name:
+        base_save_folder=base2 + second_folder + '/' + cell + '_'+passive_val_name+'/' +passive_val_name+'='+str(round(RA,2))+'/'
+    elif "initial" in passive_val_name:
+        base_save_folder=base2 + second_folder + '/' + cell + '_'+passive_val_name+'/RA_after_fit='+str(round(RA,2))+'/'
+    print('base_save_folder:',base_save_folder)
     from find_synaptic_loc import synaptic_loc
     syn_poses={}
     syn_poses['170830HuSHS2C1IN0toIN3'] = [np.array([198.04, 51.55, 11.31]),
@@ -250,7 +230,12 @@ def run(cell, seed=0):
     synapses_locations[cell] = synaptic_loc(cell, syn_poses[cell])
     morphology = ephys.morphologies.NrnFileMorphology(morphology_dirr, do_replace_axon=True,
                                                       extra_func=True, extra_func_run=add_morph, spine_poses=synapses_locations[cell],
-                                                      do_resize_dend=do_resize_dend,resize_dend_by=resize_dend_by,shrinkage_by=shrinkage_by,nseg_frequency=40)  # change axon to AIS and add spine locations
+                                                      do_resize_dend=do_resize_dend,resize_dend_by=resize_dend_by,
+                                                      do_shrinkage=True,shrinkage_by=shrinkage_by,
+                                                      spine_properties=spine_properties)
+    # morphology = ephys.morphologies.NrnFileMorphology(morphology_dirr, do_replace_axon=True,
+    #                                                   extra_func=True, extra_func_run=add_morph, spine_poses=synapses_locations[cell],
+    #                                                   do_resize_dend=do_resize_dend,resize_dend_by=resize_dend_by,nseg_frequency=40)  # change axon to AIS and add spine locations
     morphology1 = ephys.morphologies.NrnFileMorphology(morphology_dirr, do_replace_axon=True,
                                                       extra_func=True, extra_func_run=add_morph,
                                                       spine_poses=synapses_locations[cell],
@@ -297,16 +282,15 @@ def run(cell, seed=0):
                                                       dist_thresh_apical=60,
                                                       dist_thresh_basal=60,
                                                       F_factor=F_factor,
-                                                      shrinckage_factor = 1.0/0.7)
-
+                                                      shrinckage_factor=shrinkage_by)
     parameters_list.append(
         ephys.parameters.NrnSectionParameter(name="Ra", param_name="Ra", value=passive_val[cell]["RA"],
-                                             bounds=[50, 300], locations=sec_list, frozen=RA_FROZEN)) #@# in the paper they said bound of 70-100 ohm*cm
+                                             bounds=[60, 350], locations=sec_list, frozen=RA_FROZEN)) #@# in the paper they said bound of 70-100 ohm*cm
     parameters_list.append(
         ephys.parameters.NrnSectionParameter(name="g_pas", param_name="g_pas", value=1.0 / passive_val[cell]["RM"],
                                              locations=sec_list, frozen=True, value_scaler=F_FACTOR_DISTANCE))
     parameters_list.append(
-        ephys.parameters.NrnSectionParameter(name="cm", param_name="cm", bounds=[0.5, 3], value=CM_startValue,
+        ephys.parameters.NrnSectionParameter(name="cm", param_name="cm", bounds=[0.5, 4], value=CM_startValue,
                                              locations=sec_list, frozen=CM_FROZEN, value_scaler=F_FACTOR_DISTANCE)) #@# change the limit form [0.5, 1.5]
 
     param_names.append("e_pas")
@@ -526,9 +510,9 @@ def run(cell, seed=0):
     if in_parallel:
         from datetime import datetime
         import ipyparallel as ipp
-
         rc = ipp.Client(profile=profile)
         print(rc.ids)
+        # rc.wait_for_engines(n=cpu_node,timeout=180)
         print(rc[:].apply_sync(lambda: "Hello, World"))
         for g in rc.ids:
             try:
@@ -549,7 +533,7 @@ def run(cell, seed=0):
         rc[:].push(dict(add_morph=add_morph, create_spine=create_spine,
                         NECK_LENGHT = NECK_LENGHT, HEAD_DIAM = HEAD_DIAM,
                         passive_val = passive_val, Rneck=Rneck, cell=cell))
-        print('Using ipyparallel with %d engines', len(rc))
+        print('Using ipyparallel with %d engines', len(rc),flush=True)
 
         lview = rc.load_balanced_view()
 
@@ -597,7 +581,7 @@ def run(cell, seed=0):
 
     data_bef = open(base_save_folder + 'befor_simulation.txt', 'w')
     data_bef.write('model description:\n'+model_description+'\n')
-    data_bef.write('neck resistance is '+str(round(result_R_neck_m_ohm,3))+'\n\n')
+    data_bef.write('neck resistance is '+str(round(result_R_neck_m_ohm,3))+'\n')
     data_bef.write(model.__str__())
     data_bef.close()
     stim_befor=True
@@ -639,7 +623,7 @@ def run(cell, seed=0):
             plt.plot(temp, temp2, color='red', alpha=0.3, linewidth=5,label='dend*'+str(another_morphology_resize_dend_by)+' another morphology')
             plt.text(100,-76.5,'max_vol_other_morph='+str(round(np.amax(temp2),2)))
         plt.legend()
-        plt.savefig(base_save_folder + 'before_fit_transient_RDSM')
+        plt.savefig(base_save_folder + 'before_fit_transient_RDSM.png')
         plt.close()
     final_pop, hall_of_fame, logs, hist = optimisation.run(max_ngen=num_of_genarations)
 
@@ -798,7 +782,7 @@ def run(cell, seed=0):
         plt.plot(temp, temp2, color='green', alpha=0.4, linewidth=5,label='compare to dend*'+str(another_morphology_resize_dend_by)+' another morphology')
     plt.plot([], [], ' ', label='gmax_AMPA='+str(round(best[0]*1000,3))+' [nS] \ngmax_NMDA=' +str(round(best[1]*1000,3))+' [nS]')
     plt.legend(fontsize=12)
-    plt.savefig(base_save_folder + 'fit_transient_RDSM')
+    plt.savefig(base_save_folder + 'fit_transient_RDSM.png')
     plt.savefig(base_save_folder + 'fit_transient_RDSM.pdf')
     plt.close()
 
@@ -828,14 +812,13 @@ cells = [cell1, cell2, cell3, cell4, cell5, cell6 ,cell7]
 # num_of_genarations = 5000
 seed = 123456
 cell=cells[6]
-profile=""
-# passive_val_name = "Ra_100"
-# passive_val_name ="fit.py_solution_outomatic"
+
+
 print(cell)
 #  for run in cluster:
-# qsub -pe pnrn 51 first_run_cm_g_pas3.sh 1000 100 10 0 50 Ra_250
-# ssh yoni.leibner@bs-cluster.elsc.huji.ac.il
-# sbatch -p ss.q -c51 first_run_cm_g_pas3.sh 1000 100 10 0 50 Ra_250 human_spine 365
+# qsub -pe pnrn 51 first_run_cm_g_pas3.sh 1RM000 100 10 0 50 Ra_250
+# ssh moria.fridman@bs-cluster.elsc.huji.ac.il
+# sbatch -p ss.q -c50 first_run_cm_g_pas3.sh 1000 100 10 0 50 Ra_250 human_spine 365
 # start_values = NMDA_fit_grad[cell]
 
 CM_FROZEN = True
@@ -846,28 +829,11 @@ GAMMA_FROZEN = True
 
 AMPA_RISE_FIX = False
 AMPA_DECAY_FIX = False
-if passive_val_name == "Ra_250":
-    passive_val = {'170830HuSHS2C1IN0toIN3': {'CM': 0.73, 'RA': 250, 'RM': 14254.8},
-                   '171101HuSHS2C2IN0toIN1': {'CM': 0.7202456742908355, 'RA': 250, 'RM': 44010.0},
-                   '171101HuSHS2C2IN0toIN3': {'CM': 0.7619930711798609, 'RA': 250, 'RM': 27863.8},
-                   '171101HuSHS2C2IN3toIN1': {'CM': 0.7202456742908355, 'RA': 250, 'RM': 44010.0},
-                   '180207HuSHS4C2IN1toIN0': {'CM': 0.8545180040756637, 'RA': 250, 'RM': 25020.0},
-                   "fake_cell": {'CM': 0.7, 'RA': 200.0, 'RM': 30000.0}}
-elif passive_val_name == "Ra_100":
-    passive_val = {'170830HuSHS2C1IN0toIN3': {'CM': 0.66, 'RA': 100, 'RM': 21902.6},
-                   '171101HuSHS2C2IN0toIN1': {'CM': 0.6896806453365673, 'RA': 100, 'RM': 45960.42},
-                   '171101HuSHS2C2IN0toIN3': {'CM': 0.6594225877073165, 'RA': 100, 'RM': 32197.9},
-                   '171101HuSHS2C2IN3toIN1': {'CM': 0.6896806453365673, 'RA': 100, 'RM': 45960.42},
-                   '180207HuSHS4C2IN1toIN0': {'CM': 0.7124305385529192, 'RA': 100, 'RM': 30010.0},
-                   "fake_cell": {'CM': 0.7, 'RA': 200.0, 'RM': 30000.0},
-                   '05_08_A_01062017':{'CM': 1, 'RA': 100, 'RM': 5684*2}}
-    raise BaseException("choose Ra from Ra_100 and Ra_250 in args")
 
 # passive_val = values_delta_pulse # value from gradint desent on delta pulse without Rin fit
 # passive_val = values_delta_pulse_Rin # value from gradint desent on delta pulse without Rin fit
 
-spine_type="groger_spine"
-Rneck='100'
+# Rneck='100'
 ####################spine parameters######################
 if spine_type == "human_spine":
     #human
@@ -879,14 +845,16 @@ elif spine_type == "mouse_spine":
     head_area=0.37
     R_head=np.sqrt(head_area/(4*pi))
     NECK_LENGHT=0.73
-    # HEAD_DIAM=0.667
+    HEAD_DIAM=2*R_head
     spine_neck_diam=0.25 #0.164/07=0.23
     spine_density=1.08
     V_head=4/3*pi*R_head**3
+
 elif spine_type == "shaft_spine":
     #on_shaft
     NECK_LENGHT=0.001
     HEAD_DIAM=0.944
+
 elif spine_type == "groger_spine":
     if cell=="05_08_A_01062017":
         from math import pi
@@ -895,13 +863,11 @@ elif spine_type == "groger_spine":
         R_head=(spine_head_vol/(4*pi/3))**(1/3) #0.32µm
         spine_neck_diam = 0.164 #µm
         HEAD_DIAM=2*R_head #0.64
-        Rneck = passive_val[cell]["RA"]
-
 else:
     raise BaseException("choose spine from [human_spine, mouse_spine, shaft_spine]")
-F_factor_result=calculate_F_factor(cell, R_head, NECK_LENGHT, spine_neck_diam,resize_dend=resize_dend_by,shrinkeage=shrinkage_by)
-
+Rneck = passive_val[cell]["RA"]
 if do_calculate_F_factor:
+    F_factor_result=calculate_F_factor(cell, R_head, NECK_LENGHT, spine_neck_diam)
     F_factor=F_factor_result
 else:
     F_factor = 1.9
