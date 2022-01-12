@@ -1,0 +1,11 @@
+data
+errors
+outputs
+
+*.png
+*/*.png
+*/*/*.png
+
+__pycache__/
+test_moo/__pycache__/
+.idea/
