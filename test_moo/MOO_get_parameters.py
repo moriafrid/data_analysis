@@ -40,11 +40,11 @@ RDSM_objective_file = "../data/correct_syn/mean_syn.p"
 # RA = 250
 # CM = 1
 # passive_val_name='RA_initial'
-# profile = ''
+# profile = '_'
 print('profile=',profile)
 
-generation_size = 2
-num_of_genarations = 2
+generation_size = 100
+num_of_genarations = 1000
 
 
 do_calculate_F_factor=True
@@ -59,6 +59,7 @@ spine_type="mouse_spine" #"groger_spine"
 
 model_description='the file to fit is '+RDSM_objective_file+\
             '\ngeneration size is '+str(generation_size)+' and num of generation is '+str(num_of_genarations)
+model_description=model_description+' the profile to run is '+profile
 
 passive_val = {'05_08_A_01062017':{'RM':RM,'RA':RA,'CM':CM}}
 model_description=model_description+'\nRunning with  '+passive_val_name+ ' that had the paremeters:\n'+str(passive_val)+'\nThe shrinking factor is '+str(round(shrinkage_by,2))
@@ -881,7 +882,7 @@ CM_startValue = passive_val[cell]["CM"]
 # result_R_neck_m_ohm = ((NECK_LENGHT * 4.0 * float(Rneck))/(np.pi*0.25**2)) / 100.0 # 0.25 is neck_diam
 result_R_neck_m_ohm = ((NECK_LENGHT * 4.0 * float(Rneck))/(np.pi*(spine_neck_diam/2)**2)) *100.0 *1e-6# 0.25 is neck_diam
 
-in_parallel = profile != ""
+in_parallel = profile != "_"
 base2 = spine_type+"/"  # folder name  _RA_free
 # base2 = passive_val_name +"__"+spine_type+"_"+str(round(result_R_neck_m_ohm,2))+"/"  # folder name  _RA_free
 
